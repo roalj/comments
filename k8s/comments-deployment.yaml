@@ -13,7 +13,7 @@ spec:
         app: comments
     spec:
       containers:
-        - image: rkosir123/comments:4.1
+        - image: rkosir123/comments:5.1
           name: comments
           env:
             - name: KUMULUZEE_DISCOVERY_CLUSTER
@@ -23,7 +23,7 @@ spec:
             - name: KUMULUZEE_SERVER_BASEURL
               value: http://34.76.248.125:8080
           ports:
-            - containerPort: 8080
+            - containerPort: 8081
               name: server
               protocol: TCP
 ---
@@ -35,7 +35,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - port: 8080
+    - port: 8081
       protocol: TCP
       targetPort: server
   selector:
