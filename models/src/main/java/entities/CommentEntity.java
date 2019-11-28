@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "comments")
 @NamedQueries(value =
         {
-                @NamedQuery(name = "Comment.getAll", query = "SELECT comments FROM CommentEntity im")
+                @NamedQuery(name = "Comment.getAll", query = "SELECT comments FROM CommentEntity comments")
         })
 public class CommentEntity {
     @Id
@@ -21,7 +21,7 @@ public class CommentEntity {
     private Integer imageId;
 
     @Column(name = "text")
-    private Integer text;
+    private String text;
 
     public Integer getId() {
         return id;
@@ -47,11 +47,11 @@ public class CommentEntity {
         this.imageId = imageId;
     }
 
-    public Integer getText() {
+    public String getText() {
         return text;
     }
 
-    public void setText(Integer text) {
+    public void setText(String text) {
         this.text = text;
     }
 }
