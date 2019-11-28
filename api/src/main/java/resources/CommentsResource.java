@@ -1,7 +1,7 @@
 package resources;
 
-import lib.Comment;
-import services.CommentsBean;
+import entities.CommentEntity;
+import services.CommentBean;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -17,35 +17,26 @@ import java.util.List;
 public class CommentsResource {
 
     @Inject
-    private CommentsBean commentsBean;
+    private CommentBean commentsBean;
 
     @GET
-    public Response getComments(@QueryParam("imageId") Integer imageId) {
+    public Response getImageList() {
+        final List<entities.CommentEntity> commentsList = commentsBean.getCommentsList();
 
-        List<Comment> comments;
-
-        if (imageId != null) {
-            comments = commentsBean.getCommentsForImage(imageId);
-        } else {
-            comments = commentsBean.getComments();
-        }
-
-        return Response.ok(comments).build();
+        return Response.ok(commentsList).build();
     }
 
     @GET
-    @Path("count")
-    public Response getCommentsCount(@QueryParam("imageId") Integer imageId) {
+    @Path("/{commentId}")
+    public Response getImageMetadata(@PathParam("commentId") Integer commentId) {
 
-        List<Comment> comments;
+        CommentEntity comment = commentsBean.getComment(commentId);
 
-        if (imageId != null) {
-            comments = commentsBean.getCommentsForImage(imageId);
-        } else {
-            comments = commentsBean.getComments();
+        if (comment == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(comments.size()).build();
+        return Response.status(Response.Status.OK).entity(comment).build();
     }
 
 }
