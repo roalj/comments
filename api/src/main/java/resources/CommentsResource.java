@@ -9,6 +9,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 @Path("/comments")
@@ -20,7 +21,7 @@ public class CommentsResource {
     private CommentBean commentsBean;
 
     @GET
-    public Response getImageList() {
+    public Response getCommentsList() {
         final List<entities.CommentEntity> commentsList = commentsBean.getCommentsList();
 
         return Response.ok(commentsList).build();
@@ -28,7 +29,7 @@ public class CommentsResource {
 
     @GET
     @Path("/{commentId}")
-    public Response getImageMetadata(@PathParam("commentId") Integer commentId) {
+    public Response getComment(@PathParam("commentId") Integer commentId) {
 
         CommentEntity comment = commentsBean.getComment(commentId);
 
@@ -37,6 +38,17 @@ public class CommentsResource {
         }
 
         return Response.status(Response.Status.OK).entity(comment).build();
+    }
+
+    @GET
+    @Path("count")
+    public Response getCommentsCount(@QueryParam("imageId") Integer imageId) {
+
+        List<entities.CommentEntity> comments = commentsBean.getCommentsList();
+
+        comments.stream().filter(comment -> comment.getImageId().equals(imageId)).collect(Collectors.toList());
+
+        return Response.ok(comments.size()).build();
     }
 
 }

@@ -13,7 +13,7 @@ spec:
         app: comments
     spec:
       containers:
-        - image: rkosir123/comments:10.1
+        - image: rkosir123/comments:11.1
           name: comments
           env:
             - name: KUMULUZEE_DISCOVERY_CLUSTER
