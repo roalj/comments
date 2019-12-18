@@ -48,7 +48,8 @@ public class CommentsResource {
 
         comments.stream().filter(comment -> comment.getImageId().equals(imageId)).collect(Collectors.toList());
 
-        return Response.ok(comments.size()).build();
+        return Response.ok( "neveljavna vrednost").build();
+        //return Response.ok(comments.size()).build();
     }
 
 }
