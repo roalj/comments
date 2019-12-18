@@ -1,6 +1,7 @@
 package resources;
 
 import entities.CommentEntity;
+import org.eclipse.microprofile.metrics.annotation.Counted;
 import services.CommentBean;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -40,6 +41,7 @@ public class CommentsResource {
         return Response.status(Response.Status.OK).entity(comment).build();
     }
 
+    @Counted(name = "CommentsCount")
     @GET
     @Path("count")
     public Response getCommentsCount(@QueryParam("imageId") Integer imageId) {
