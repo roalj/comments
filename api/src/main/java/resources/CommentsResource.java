@@ -1,5 +1,6 @@
 package resources;
 
+import config.IntegrationProperties;
 import entities.CommentEntity;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import services.CommentBean;
@@ -10,6 +11,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -17,9 +19,13 @@ import java.util.stream.Collectors;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CommentsResource {
+    private Logger log = Logger.getLogger(CommentsResource.class.getName());
 
     @Inject
     private CommentBean commentsBean;
+
+    @Inject
+    private IntegrationProperties integrationProperties;
 
     @GET
     public Response getCommentsList() {
@@ -50,8 +56,11 @@ public class CommentsResource {
 
         comments.stream().filter(comment -> comment.getImageId().equals(imageId)).collect(Collectors.toList());
 
-        return Response.ok( "neveljavna vrednost").build();
-        //return Response.ok(comments.size()).build();
+        if(integrationProperties.isMakeError()) {
+            return Response.ok( "neveljavna vrednost").build();
+        } else {
+            return Response.ok(comments.size()).build();
+        }
     }
 
 }
